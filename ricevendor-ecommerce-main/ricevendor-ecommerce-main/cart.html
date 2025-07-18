@@ -1,0 +1,50 @@
+<!-- cart.html -->
+<div id="cart-section">
+  <button id="cart-button" class="w-8 h-8 flex items-center justify-center relative cursor-pointer">
+    <i class="ri-shopping-cart-line text-xl text-gray-700"></i>
+    <span id="cart-count" class="absolute -top-1 -right-1 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+  </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cartButton = document.getElementById('cart-button');
+  const cartCount = document.getElementById('cart-count');
+  let cartItems = 0;
+
+  // Load cart count from localStorage
+  if (localStorage.getItem('cartItems')) {
+    cartItems = parseInt(localStorage.getItem('cartItems'));
+    updateCartCount();
+  }
+
+  // This would be called when "Add to Cart" is clicked on products
+  function addToCart() {
+    cartItems++;
+    localStorage.setItem('cartItems', cartItems);
+    updateCartCount();
+  }
+
+  function updateCartCount() {
+    cartCount.textContent = cartItems;
+    if (cartItems > 0) {
+      cartCount.classList.remove('hidden');
+    } else {
+      cartCount.classList.add('hidden');
+    }
+  }
+
+  // Example of how to call addToCart from product buttons
+  document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', addToCart);
+  });
+
+  // Cart button click handler
+  cartButton.addEventListener('click', function() {
+    // Here you would typically show a cart modal or navigate to cart page
+    console.log('Cart clicked with', cartItems, 'items');
+    // For now, we'll just show an alert
+    alert(`You have ${cartItems} items in your cart`);
+  });
+});
+</script>
